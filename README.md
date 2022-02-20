@@ -1,6 +1,6 @@
 # mysh
 
-This is a simple shell program for my operating systems class
+This is a simple shell program for my operating systems class.
 Below are the instructions for the assignment:
 
 

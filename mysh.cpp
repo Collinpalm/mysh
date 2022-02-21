@@ -18,9 +18,9 @@ int terminate(int id);
 int main(void){
     //open file
     string filename = "history.tst";
-    fstream historyFile(filename.c_str());
-    //historyFile.open(filename.c_str());
-    
+    fstream historyFile;
+    historyFile.open(filename.c_str(), std::fstream::trunc);
+    historyFile << "this not working is cring af";
     /*
     if(historyFile.good() == false){
         cout << "bad";

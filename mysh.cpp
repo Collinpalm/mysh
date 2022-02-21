@@ -39,6 +39,11 @@ int main(void){
         token = strtok(NULL, " ");
     }
     
+    for(int j = 0;j <= i; j++){
+        historyFile << command[j];
+    }
+    historyFile << endl;
+
     if(strcmp(command[0], "history") == 0){
         history(command[1]);
     }else if(strcmp(command[0], "byebye") == 0){
@@ -59,10 +64,6 @@ int main(void){
 
     bye(historyFile);
     return 0;
-}
-
-void writeToHist(char* commands[]){
-    
 }
 
 //function to handle the history command

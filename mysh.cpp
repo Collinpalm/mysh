@@ -40,7 +40,7 @@ int main(void){
 //parameter: boolean clear, if true will clear the history
 //returns 1 if success and 0 if fail
 int history(bool clear){
-
+    return 0;
 }
 
 //function to close the terminal
@@ -50,17 +50,17 @@ void bye(){
 }
 
 int replay(){
-
+    return 0;
 }
 
 int start(string program, string param){
-
+    return 0;
 }
 
 int background(string program, string param){
-
+    return 0;
 }
 
 int terminate(int id){
-
+    return 0;
 }

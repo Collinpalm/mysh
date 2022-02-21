@@ -20,7 +20,7 @@ int main(void){
     string filename = "history.tst";
     fstream historyFile;
     historyFile.open(filename.c_str(), std::fstream::trunc);
-    historyFile << "this not working is cring af";
+    historyFile << "this not working is cringe af";
     /*
     if(historyFile.good() == false){
         cout << "bad";

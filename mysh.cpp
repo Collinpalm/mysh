@@ -9,7 +9,7 @@ using namespace std;
 //function definition
 int history(bool clear);
 void bye();
-int replay();
+int replay(int number);
 int start(string program, string param);
 int background(string program, string param);
 int terminate(int id);
@@ -33,17 +33,21 @@ int main(void){
     }
     
     if(strcmp(command[0], "history") == 0){
-
+        history(command[1]);
     }else if(strcmp(command[0], "byebye") == 0){
-        
+        bye();
     }else if(strcmp(command[0], "replay") == 0){
-        
+        int j;
+        sscanf(command[1], "%d", &j);
+        replay(j);
     }else if(strcmp(command[0], "start") == 0){
-        
+        start(command[1], command[2]);
     }else if(strcmp(command[0], "background") == 0){
-        
+        background(command[1], command[2]);
     }else if(strcmp(command[0], "terminate") == 0){
-        
+        int j;
+        sscanf(command[1], "%d", &j);
+        terminate(j);
     }
 
     bye();
@@ -65,7 +69,7 @@ void bye(){
     exit(0);
 }
 
-int replay(){
+int replay(int number){
     return 0;
 }
 

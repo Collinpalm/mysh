@@ -10,7 +10,6 @@ using namespace std;
 
 //function definition
 int history(bool clear, fstream& historyFile);
-void bye(fstream& historyFile);
 int replay(int number);
 int start(char* commands[]);
 int background(char* commands[]);
@@ -23,9 +22,10 @@ int main(void){
     std::fstream historyFile;
     historyFile.open(filename.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
+    bool loopcheck = true;
     string commandLine;
     char* command[4];
-    while(true){
+    while(loopcheck){
         int i= 0;
         //get user input
         cout << "\n#";
@@ -44,7 +44,7 @@ int main(void){
         for(int j = 0;j <= i; j++){
             historyFile << command[j];
         }
-        historyFile << endl;
+        historyFile << "\n";
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
@@ -54,7 +54,7 @@ int main(void){
                 history(false, historyFile);
             }
         }else if(strcmp(command[0], "byebye") == 0){
-            bye(historyFile);
+            loopcheck = false;
         }else if(strcmp(command[0], "replay") == 0){
             if(i>=2){
                 int j;
@@ -76,7 +76,8 @@ int main(void){
     }
     
 
-    bye(historyFile);
+    historyFile.close();
+    exit(0);
     return 0;
 }
 
@@ -86,13 +87,6 @@ int main(void){
 int history(bool clear, fstream& historyFile){
     cout << "history";
     return 0;
-}
-
-//function to close the terminal
-//saves history and exits the program
-void bye(fstream& historyFile){
-    historyFile.close();
-    exit(0);
 }
 
 int replay(int number){

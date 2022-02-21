@@ -21,7 +21,7 @@ int main(void){
     char *token = strtok(cstr, " ");
     
     while(token != NULL){
-        printf("%s\n", token);
+        command[i++] = token;
         token = strtok(NULL, " ");
     }
 

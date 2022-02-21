@@ -9,7 +9,7 @@ using namespace std;
 
 //function definition
 int history(bool clear);
-void bye();
+void bye(fstream& historyFile);
 int replay(int number);
 int start(string program, string param);
 int background(string program, string param);
@@ -17,8 +17,10 @@ int terminate(int id);
 
 int main(void){
     //open file
-    fstream historyFile;
-    historyFile.open("history.txt");
+    string filename = "history.tst";
+    fstream historyFile(filename.c_str());
+    //historyFile.open(filename.c_str());
+    
     /*
     if(historyFile.good() == false){
         cout << "bad";
@@ -45,7 +47,7 @@ int main(void){
     if(strcmp(command[0], "history") == 0){
         history(command[1]);
     }else if(strcmp(command[0], "byebye") == 0){
-        bye();
+        bye(historyFile);
     }else if(strcmp(command[0], "replay") == 0){
         int j;
         sscanf(command[1], "%d", &j);
@@ -60,7 +62,7 @@ int main(void){
         terminate(j);
     }
 
-    bye();
+    bye(historyFile);
     return 0;
 }
 
@@ -73,9 +75,10 @@ int history(bool clear){
 
 //function to close the terminal
 //saves history and exits the program
-void bye(){
+void bye(fstream& historyFile){
 
-    cout << "goodbye\n";
+    historyFile << "goodbye\n";
+    historyFile.close();
     exit(0);
 }
 

@@ -22,11 +22,12 @@ int main(void){
     std::fstream historyFile;
     historyFile.open(filename.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
+    int i;
     bool loopcheck = true;
     string commandLine;
     char* command[4];
     while(loopcheck){
-        int i= 0;
+        i= 0;
         //get user input
         cout << "\n#";
         getline(cin, commandLine);
@@ -41,14 +42,15 @@ int main(void){
             token = strtok(NULL, " ");
         }
         //save to history
-        for(int j = 0;j <= i; j++){
-            historyFile << command[j];
+        for(int j = 0;j < i; j++){
+            historyFile << command[j] << " ";
         }
         historyFile << "\n";
+        
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
-            if(i>2){
+            if(i>=2){
                 history(true, historyFile);
             }else{
                 history(false, historyFile);

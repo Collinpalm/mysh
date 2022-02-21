@@ -56,10 +56,10 @@ int main(void){
         }else if(strcmp(command[0], "byebye") == 0){
             bye(historyFile);
         }else if(strcmp(command[0], "replay") == 0){
-            if(i>2){
+            if(i>=2){
                 int j;
-            sscanf(command[1], "%d", &j);
-            replay(j);
+                sscanf(command[1], "%d", &j);
+                replay(j);
             }else{
                 cout << "A command number must be given";
             }

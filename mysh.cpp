@@ -31,6 +31,20 @@ int main(void){
         command[i++] = token;
         token = strtok(NULL, " ");
     }
+    
+    if(strcmp(command[0], "history") == 0){
+
+    }else if(strcmp(command[0], "byebye") == 0){
+        
+    }else if(strcmp(command[0], "replay") == 0){
+        
+    }else if(strcmp(command[0], "start") == 0){
+        
+    }else if(strcmp(command[0], "background") == 0){
+        
+    }else if(strcmp(command[0], "terminate") == 0){
+        
+    }
 
     bye();
     return 0;
@@ -46,6 +60,8 @@ int history(bool clear){
 //function to close the terminal
 //saves history and exits the program
 void bye(){
+
+    cout << "goodbye\n";
     exit(0);
 }
 

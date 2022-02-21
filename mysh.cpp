@@ -14,18 +14,13 @@ int replay(int number);
 int start(string program, string param);
 int background(string program, string param);
 int terminate(int id);
+void writeToHist(char* commands[]);
 
 int main(void){
     //open file
-    string filename = "history.tst";
-    fstream historyFile;
-    historyFile.open(filename.c_str(), std::fstream::trunc);
-    historyFile << "this not working is cringe af";
-    /*
-    if(historyFile.good() == false){
-        cout << "bad";
-
-    }*/
+    string filename = "history.txt";
+    std::fstream historyFile;
+    historyFile.open(filename.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
     string commandLine;
     char* command[4];
@@ -66,6 +61,10 @@ int main(void){
     return 0;
 }
 
+void writeToHist(char* commands[]){
+    
+}
+
 //function to handle the history command
 //parameter: boolean clear, if true will clear the history
 //returns 1 if success and 0 if fail
@@ -76,8 +75,6 @@ int history(bool clear){
 //function to close the terminal
 //saves history and exits the program
 void bye(fstream& historyFile){
-
-    historyFile << "goodbye\n";
     historyFile.close();
     exit(0);
 }

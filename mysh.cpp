@@ -2,6 +2,7 @@
 #include <unistd.h>     // getpid(), getcwd()
 #include <sys/wait.h>   // wait()
 #include <iostream>
+#include <fstream>
 #include <string.h>
 #include <stdlib.h>
 using namespace std;
@@ -15,6 +16,15 @@ int background(string program, string param);
 int terminate(int id);
 
 int main(void){
+    //open file
+    fstream historyFile;
+    historyFile.open("history.txt");
+    /*
+    if(historyFile.good() == false){
+        cout << "bad";
+
+    }*/
+
     string commandLine;
     char* command[4];
     int i= 0;

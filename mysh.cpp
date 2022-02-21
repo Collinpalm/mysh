@@ -48,7 +48,7 @@ int main(void){
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
-            if(command[1] == "-c"){
+            if(i>2){
                 history(true, historyFile);
             }else{
                 history(false, historyFile);
@@ -56,9 +56,14 @@ int main(void){
         }else if(strcmp(command[0], "byebye") == 0){
             bye(historyFile);
         }else if(strcmp(command[0], "replay") == 0){
-            int j;
+            if(i>2){
+                int j;
             sscanf(command[1], "%d", &j);
             replay(j);
+            }else{
+                cout << "A command number must be given";
+            }
+            
         }else if(strcmp(command[0], "start") == 0){
             start(command);
         }else if(strcmp(command[0], "background") == 0){

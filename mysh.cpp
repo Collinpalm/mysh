@@ -1,6 +1,6 @@
 //includes and namespace
-#include <unistd.h>     // getpid(), getcwd()
-#include <sys/wait.h>   // wait()
+#include <unistd.h>     
+#include <sys/wait.h>   
 #include <iostream>
 #include <fstream>
 #include <string.h>

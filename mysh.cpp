@@ -28,7 +28,7 @@ int main(void){
     while(loopcheck){
         i= 0;
         //get user input
-        cout << "\n#";
+        cout << "#";
         getline(cin, commandLine);
         
         //copy string format to char* format bc it wasnt working befor

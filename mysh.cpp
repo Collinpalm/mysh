@@ -47,29 +47,16 @@ int main(void){
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
-            if(i>=2){
-                history(histv);
-            }else{
-                history(histv);
-            }
+            history(histv);
         }else if(strcmp(command[0], "byebye") == 0){
             loopcheck = false;
         }else if(strcmp(command[0], "replay") == 0){
-            if(i>=2){
-                int j;
-                sscanf(command[1], "%d", &j);
-                replay(histv);
-            }else{
-                cout << "A command number must be given";
-            }
-            
+            replay(histv);
         }else if(strcmp(command[0], "start") == 0){
             start(histv);
         }else if(strcmp(command[0], "background") == 0){
             background(histv);
         }else if(strcmp(command[0], "terminate") == 0){
-            int j;
-            sscanf(command[1], "%d", &j);
             terminate(histv);
         }
     }
@@ -85,7 +72,7 @@ int main(void){
 //function to handle the history command
 //parameter: boolean clear, if true will clear the history
 //returns 1 if success and 0 if fail
-int history(vector<string> historyFile){
+int history(vector<string> hist){
     cout << "history";
     return 0;
 }

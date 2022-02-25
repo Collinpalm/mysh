@@ -11,11 +11,11 @@ using namespace std;
 
 //function definition
 int history(vector<string> hist);
-int replay(int number);
-int start(char* commands[]);
-int background(char* commands[]);
-int terminate(int id);
-void writeToHist(char* commands[]);
+int replay(vector<string> hist);
+int start(vector<string> hist);
+int background(vector<string> hist);
+int terminate(vector<string> hist);
+void writeToHist(vector<string> hist);
 
 int main(void){
     //create history vector
@@ -58,19 +58,19 @@ int main(void){
             if(i>=2){
                 int j;
                 sscanf(command[1], "%d", &j);
-                replay(j);
+                replay(histv);
             }else{
                 cout << "A command number must be given";
             }
             
         }else if(strcmp(command[0], "start") == 0){
-            start(command);
+            start(histv);
         }else if(strcmp(command[0], "background") == 0){
-            background(command);
+            background(histv);
         }else if(strcmp(command[0], "terminate") == 0){
             int j;
             sscanf(command[1], "%d", &j);
-            terminate(j);
+            terminate(histv);
         }
     }
     
@@ -91,22 +91,22 @@ int history(vector<string> historyFile){
 }
 
 
-int replay(int number){
+int replay(vector<string> hist){
     cout << "replay";
     return 0;
 }
 
-int start(char* commands[]){
+int start(vector<string> hist){
     cout << "start";
     return 0;
 }
 
-int background(char* commands[]){
+int background(vector<string> hist){
     cout << "background";
     return 0;
 }
 
-int terminate(int id){
+int terminate(vector<string> hist){
     cout << "terminate";
     return 0;
 }

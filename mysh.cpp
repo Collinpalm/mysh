@@ -10,7 +10,7 @@
 using namespace std;
 
 //function definition
-int history(bool clear, vector<string> hist);
+int history(vector<string> hist);
 int replay(int number);
 int start(char* commands[]);
 int background(char* commands[]);
@@ -40,19 +40,17 @@ int main(void){
             command[i++] = token;
             token = strtok(NULL, " ");
         }
-        //save to history
-        for(int j = 0;j < i; j++){
-            
-        }
+        //push command on the history vector
+        histv.push_back(commandLine);
         
         
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
             if(i>=2){
-                history(true, histv);
+                history(histv);
             }else{
-                history(false, histv);
+                history(histv);
             }
         }else if(strcmp(command[0], "byebye") == 0){
             loopcheck = false;
@@ -76,6 +74,9 @@ int main(void){
         }
     }
     
+    std::ofstream output_file("history.mysh");
+    std::ostream_iterator<std::string> output_iterator(output_file, "\n");
+    std::copy(histv.begin(), histv.end(), output_iterator);
 
     exit(0);
     return 0;
@@ -84,10 +85,11 @@ int main(void){
 //function to handle the history command
 //parameter: boolean clear, if true will clear the history
 //returns 1 if success and 0 if fail
-int history(bool clear, vector<string> historyFile){
+int history(vector<string> historyFile){
     cout << "history";
     return 0;
 }
+
 
 int replay(int number){
     cout << "replay";

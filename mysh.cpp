@@ -21,14 +21,15 @@ int main(void){
     //create history vector
     vector<string> histv;
 
-    int i;
+    int i, success;
     bool loopcheck = true;
     string commandLine;
     char* command[4];
+    cout << "#";
     while(loopcheck){
         i= 0;
         //get user input
-        cout << "#";
+        
         getline(cin, commandLine);
         
         //copy string format to char* format bc it wasnt working befor
@@ -43,25 +44,32 @@ int main(void){
         //push command on the history vector
         histv.push_back(commandLine);
         
-        
+        for (auto ir = histv.rbegin(); ir != histv.rend(); ++ir)
+        cout << *ir ;
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
-            history(histv);
+            success = history(histv);
         }else if(strcmp(command[0], "byebye") == 0){
             loopcheck = false;
+            success = 1;
+            break;
         }else if(strcmp(command[0], "replay") == 0){
-            replay(histv);
+            success = replay(histv);
         }else if(strcmp(command[0], "start") == 0){
-            start(histv);
+            success = start(histv);
         }else if(strcmp(command[0], "background") == 0){
-            background(histv);
+            success = background(histv);
         }else if(strcmp(command[0], "terminate") == 0){
-            terminate(histv);
+            success = terminate(histv);
         }
+        if(success != 1){
+            cout << "Your command failed, try running this shell with sudo";
+        }
+        cout << "\n#";
     }
     
-    std::ofstream output_file("history.mysh");
+    std::ofstream output_file("mysh.history");
     std::ostream_iterator<std::string> output_iterator(output_file, "\n");
     std::copy(histv.begin(), histv.end(), output_iterator);
     output_file.close();
@@ -69,11 +77,30 @@ int main(void){
     return 0;
 }
 
-//function to handle the history command
-//parameter: boolean clear, if true will clear the history
-//returns 1 if success and 0 if fail
+
 int history(vector<string> hist){
-    cout << "history";
+    //variables
+    char* command[4];
+    char* cstr;
+    int i= 0;
+    //copy c++ string to char*
+    
+    strcpy(cstr, hist.back().c_str());
+    char *token = strtok(cstr, " ");
+    //tokenize 
+    while(token != NULL){
+        command[i++] = token;
+        token = strtok(NULL, " ");
+    }
+    if(i>1){
+        if(strcmp(command[1], "-c") == 0){
+            hist.clear();
+            return 1;
+        }
+    }
+    int j = 0;
+    for (auto ir = hist.rbegin(); ir != hist.rend(); ++ir)
+        cout << *ir ;
     return 0;
 }
 

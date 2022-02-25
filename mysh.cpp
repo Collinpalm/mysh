@@ -77,7 +77,7 @@ int main(void){
     std::ofstream output_file("history.mysh");
     std::ostream_iterator<std::string> output_iterator(output_file, "\n");
     std::copy(histv.begin(), histv.end(), output_iterator);
-
+    output_file.close();
     exit(0);
     return 0;
 }

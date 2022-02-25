@@ -6,10 +6,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <bits/stdc++.h>
+#include <vector>
 using namespace std;
 
 //function definition
-int history(bool clear, fstream& historyFile);
+int history(bool clear, vector<string> hist);
 int replay(int number);
 int start(char* commands[]);
 int background(char* commands[]);
@@ -17,10 +18,8 @@ int terminate(int id);
 void writeToHist(char* commands[]);
 
 int main(void){
-    //open file
-    string filename = "history.txt";
-    std::fstream historyFile;
-    historyFile.open(filename.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
+    //create history vector
+    vector<string> histv;
 
     int i;
     bool loopcheck = true;
@@ -43,17 +42,17 @@ int main(void){
         }
         //save to history
         for(int j = 0;j < i; j++){
-            historyFile << command[j] << " ";
+            
         }
-        historyFile << "\n";
+        
         
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
             if(i>=2){
-                history(true, historyFile);
+                history(true, histv);
             }else{
-                history(false, historyFile);
+                history(false, histv);
             }
         }else if(strcmp(command[0], "byebye") == 0){
             loopcheck = false;
@@ -78,7 +77,6 @@ int main(void){
     }
     
 
-    historyFile.close();
     exit(0);
     return 0;
 }
@@ -86,7 +84,7 @@ int main(void){
 //function to handle the history command
 //parameter: boolean clear, if true will clear the history
 //returns 1 if success and 0 if fail
-int history(bool clear, fstream& historyFile){
+int history(bool clear, vector<string> historyFile){
     cout << "history";
     return 0;
 }

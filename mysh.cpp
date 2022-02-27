@@ -10,7 +10,7 @@
 using namespace std;
 
 //function definition
-int history(vector<string> hist);
+int history(vector<string>& hist);
 int replay(vector<string> hist);
 int start(vector<string> hist);
 int background(vector<string> hist);
@@ -44,8 +44,8 @@ int main(void){
         //push command on the history vector
         histv.push_back(commandLine);
         
-        for (auto ir = histv.rbegin(); ir != histv.rend(); ++ir)
-        cout << *ir ;
+
+        
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
@@ -66,7 +66,7 @@ int main(void){
         if(success != 1){
             cout << "Your command failed, try running this shell with sudo";
         }
-        cout << "\n#";
+        cout << "#";
     }
     
     std::ofstream output_file("mysh.history");
@@ -78,14 +78,15 @@ int main(void){
 }
 
 
-int history(vector<string> hist){
+int history(vector<string>& hist){
     //variables
+    
     char* command[4];
     char* cstr;
     int i= 0;
     //copy c++ string to char*
     
-    strcpy(cstr, hist.back().c_str());
+    strcpy(cstr, (hist.back()).c_str());
     char *token = strtok(cstr, " ");
     //tokenize 
     while(token != NULL){
@@ -95,32 +96,38 @@ int history(vector<string> hist){
     if(i>1){
         if(strcmp(command[1], "-c") == 0){
             hist.clear();
+            hist.resize(1);
             return 1;
         }
     }
-    int j = 0;
-    for (auto ir = hist.rbegin(); ir != hist.rend(); ++ir)
-        cout << *ir ;
-    return 0;
+    if(hist.empty() == true){
+        return 1;
+    }
+    for (string i: hist){
+        cout << i << endl;
+    }
+
+    
+    return 1;
 }
 
 
 int replay(vector<string> hist){
-    cout << "replay";
-    return 0;
+    cout << "replay"<< endl;
+    return 1;
 }
 
 int start(vector<string> hist){
-    cout << "start";
-    return 0;
+    cout << "start"<< endl;
+    return 1;
 }
 
 int background(vector<string> hist){
-    cout << "background";
-    return 0;
+    cout << "background"<< endl;
+    return 1;
 }
 
 int terminate(vector<string> hist){
-    cout << "terminate";
-    return 0;
+    cout << "terminate"<< endl;
+    return 1;
 }

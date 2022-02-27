@@ -84,27 +84,26 @@ int history(vector<string>& hist){
     char* command[4];
     char* cstr;
     int i= 0;
+    char* token;
     //copy c++ string to char*
-    
-    strcpy(cstr, (hist.back()).c_str());
-    char *token = strtok(cstr, " ");
+    string last = hist.back();
+    strcpy(cstr, last.c_str());
+    token = strtok(cstr, " ");
     //tokenize 
     while(token != NULL){
         command[i++] = token;
         token = strtok(NULL, " ");
     }
+    
     if(i>1){
         if(strcmp(command[1], "-c") == 0){
             hist.clear();
-            hist.resize(1);
             return 1;
         }
     }
-    if(hist.empty() == true){
-        return 1;
-    }
-    for (string i: hist){
-        cout << i << endl;
+    
+    for (int i = hist.size()-1; i>=0;i--){
+        cout << hist.size()-(i+1) << ": " << hist.at(i) << endl;
     }
 
     

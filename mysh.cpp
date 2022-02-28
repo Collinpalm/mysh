@@ -1,6 +1,7 @@
 //includes and namespace
 #include <unistd.h>     
-#include <sys/wait.h>   
+#include <sys/wait.h>  
+#include <sys/types.h> 
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -13,7 +14,7 @@ using namespace std;
 //function definition
 int history(vector<string>& hist);
 int replay(vector<string> hist);
-int start(vector<string> hist);
+int start(char*args[]);
 int background(vector<string> hist);
 int terminate(vector<string> hist);
 void writeToHist(vector<string> hist);
@@ -60,7 +61,7 @@ int main(void){
         }else if(strcmp(command[0], "replay") == 0){
             success = replay(histv);
         }else if(strcmp(command[0], "start") == 0){
-            success = start(histv);
+            success = start(command);
         }else if(strcmp(command[0], "background") == 0){
             success = background(histv);
         }else if(strcmp(command[0], "terminate") == 0){
@@ -100,8 +101,21 @@ int replay(vector<string> hist){
     return 1;
 }
 
-int start(vector<string> hist){
-    cout << "start"<< endl;
+int start(char*args[]){
+    pid_t cpid;
+    cpid = fork();
+
+    if(cpid < 0){
+        cout << stderr<< "fork fail"<< endl;
+        return 1;
+    }else if(cpid == 0){
+        execvp(args[1], args);
+    }else {
+        cpid = wait(NULL);
+    }
+    
+
+
     return 1;
 }
 

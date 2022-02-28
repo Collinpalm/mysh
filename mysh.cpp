@@ -32,6 +32,9 @@ int main(void){
         
         getline(cin, commandLine);
         
+        //push command on the history vector
+        histv.push_back(commandLine);
+        
         //copy string format to char* format bc it wasnt working befor
         char *cstr = new char[commandLine.length() + 1];
         strcpy(cstr, commandLine.c_str());
@@ -41,8 +44,7 @@ int main(void){
             command[i++] = token;
             token = strtok(NULL, " ");
         }
-        //push command on the history vector
-        histv.push_back(commandLine);
+        
         
 
         
@@ -102,11 +104,10 @@ int history(vector<string>& hist){
         }
     }
     
-    for (int i = hist.size()-1; i>=0;i--){
-        cout << hist.size()-(i+1) << ": " << hist.at(i) << endl;
+    for (int j = hist.size()-1; j>=0;j--){
+        cout << hist.size()-(j+1) << ": " << hist.at(j) << endl;
     }
 
-    
     return 1;
 }
 

@@ -1,2 +1,5 @@
+background xterm
+terminate 101760
 history
+start xterm
 byebye

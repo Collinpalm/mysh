@@ -34,7 +34,7 @@ int main(void){
         
         //push command on the history vector
         histv.push_back(commandLine);
-        
+
         //copy string format to char* format bc it wasnt working befor
         char *cstr = new char[commandLine.length() + 1];
         strcpy(cstr, commandLine.c_str());
@@ -82,30 +82,8 @@ int main(void){
 
 int history(vector<string>& hist){
     //variables
-    
-    char* command[4];
-    char* cstr;
-    int i= 0;
-    char* token;
-    //copy c++ string to char*
-    string last = hist.back();
-    strcpy(cstr, last.c_str());
-    token = strtok(cstr, " ");
-    //tokenize 
-    while(token != NULL){
-        command[i++] = token;
-        token = strtok(NULL, " ");
-    }
-    
-    if(i>1){
-        if(strcmp(command[1], "-c") == 0){
-            hist.clear();
-            return 1;
-        }
-    }
-    
     for (int j = hist.size()-1; j>=0;j--){
-        cout << hist.size()-(j+1) << ": " << hist.at(j) << endl;
+        cout << hist.size()-(j+1) << ": " << hist[j] << endl;
     }
 
     return 1;

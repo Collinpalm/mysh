@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <string>
 #include <stdlib.h>
 #include <bits/stdc++.h>
 #include <vector>
@@ -82,6 +83,10 @@ int main(void){
 
 int history(vector<string>& hist){
     //variables
+    if(hist.back().find("-c") != string::npos){
+        hist.clear();
+        return 1;
+    }
     for (int j = hist.size()-1; j>=0;j--){
         cout << hist.size()-(j+1) << ": " << hist[j] << endl;
     }

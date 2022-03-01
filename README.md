@@ -1,6 +1,26 @@
 # mysh
 
 This is a simple shell program for my operating systems class.
+I actually really enjoyed making this, My professor for this class
+is teaching me all of the things I was supposed to learn in System
+Software, but that professor actively confused and insulted his 
+studends... sorry, rant over.  This was a fun exercise in making 
+background processes and running programs from the terminal.  It
+has certianly made me appreciate all the people that maintain 
+the Linux kernel, and have a bit of sympathy for the developers of 
+windows... even if I hate the OS.
+
+
+
+
+
+
+
+
+
+
+
+
 Below are the instructions for the assignment:
 
 

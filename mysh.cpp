@@ -198,3 +198,40 @@ int terminateall(){
     children.clear();
     return 0;
 }
+
+int repeat(char*args[], vector<string>& hist){
+    int pos = (hist.size()-1)-(atoi(args[1])+1);
+    int i = 0;
+    char *cstrs = new char[hist[pos].length() + 1];
+    strcpy(cstrs, hist[pos].c_str());
+    char *tokens = strtok(cstrs, " ");
+    char* rcommand[10];
+
+    while(tokens != NULL){
+        rcommand[i++] = tokens;
+        tokens = strtok(NULL, " ");
+    }
+    
+    if(strcmp(rcommand[0], "history") == 0){
+        for(int j = 0; j < atoi(args[1]); j++){
+            history(hist);
+        }    
+    }else if(strcmp(rcommand[0], "start") == 0){
+        for(int j = 0; j < atoi(args[1]); j++){
+            start(rcommand);
+        }
+    }else if(strcmp(rcommand[0], "background") == 0){
+        for(int j = 0; j < atoi(args[1]); j++){
+            history(hist);
+        }
+    }else if(strcmp(rcommand[0], "terminate") == 0){
+        for(int j = 0; j < atoi(args[1]); j++){
+            terminate(rcommand);
+        }
+    }else if(strcmp(rcommand[0], "terminateall") == 0){
+        for(int j = 0; j < atoi(args[1]); j++){
+            terminateall();
+        }
+    }
+    return 0;
+}

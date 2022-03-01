@@ -10,6 +10,7 @@
 #include <bits/stdc++.h>
 #include <vector>
 #include <signal.h>
+#include <algorithm>
 using namespace std;
 
 //function definition
@@ -18,7 +19,9 @@ int replay(char*args[], vector<string>& hist);
 int start(char*args[]);
 int background(char*args[]);
 int terminate(char*args[]);
+int terminateall();
 
+vector<pid_t> children;
 
 int main(void){
     //create history vector
@@ -67,6 +70,8 @@ int main(void){
             success = background(command);
         }else if(strcmp(command[0], "terminate") == 0){
             success = terminate(command);
+        }else if(strcmp(command[0], "terminateall") == 0){
+            success = terminateall();
         }
         if(success != 0){
             cout << "Your command failed, try running this shell with sudo";
@@ -133,6 +138,8 @@ int replay(char*args[], vector<string>& hist){
         background(rcommand);
     }else if(strcmp(rcommand[0], "terminate") == 0){
         terminate(rcommand);
+    }else if(strcmp(rcommand[0], "terminateall") == 0){
+        terminateall();
     }
     return 0;
 }
@@ -165,6 +172,7 @@ int background(char*args[]){
     }else if(cpid == 0){
         cpid = execvp(args[1], args);
     }
+    children.push_back(cpid);
     cout<<cpid<<endl;
     
     return 0;
@@ -175,5 +183,18 @@ int terminate(char*args[]){
     if(0==kill(atoi(args[1]), 0)){
         val = kill(atoi(args[1]), SIGKILL);
     }
+    std::vector<pid_t>::iterator pid, el;
+    pid = std::find(children.begin(), children.end(), atoi(args[1]));
+    if(pid != children.end()) {
+        children.erase(pid);
+    }
     return val;
+}
+
+int terminateall(){
+    for(int i = 0; i < children.size();i++){
+        kill(children[i], SIGKILL);
+    }
+    children.clear();
+    return 0;
 }

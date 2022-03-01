@@ -84,14 +84,29 @@ int main(void){
 
 
 int history(vector<string>& hist){
-    //variables
     if(hist.back().find("-c") != string::npos){
         hist.clear();
         return 0;
     }
+
     for (int j = hist.size()-1; j>=0;j--){
         cout << hist.size()-(j+1) << ": " << hist[j] << endl;
     }
+
+    std::ifstream input_file("mysh.history");
+    std::string content;
+    std::vector<std::string> numbers;
+
+    while(input_file >> content) 
+        numbers.push_back(content);
+    for(int i = numbers.size() - 1; i >= 0; i--)
+        std::cout << numbers[i] << endl;
+
+    input_file.close();
+
+
+    
+    
 
     return 0;
 }

@@ -20,18 +20,22 @@ int start(char*args[]);
 int background(char*args[]);
 int terminate(char*args[]);
 int terminateall();
+int repeat(char*args[], vector<string>& hist);
 
+//vector to store all the children pid for the terminateall function
 vector<pid_t> children;
 
 int main(void){
     //create history vector
     vector<string> histv;
-
+    //create base variables needed
     int i, success;
     bool loopcheck = true;
     string commandLine;
     char* command[10];
     cout << "#";
+
+    //start the main loop that handles user input and tokenizing and starting the functions
     while(loopcheck){
         i= 0;
         //get user input
@@ -72,32 +76,37 @@ int main(void){
             success = terminate(command);
         }else if(strcmp(command[0], "terminateall") == 0){
             success = terminateall();
+        }else if(strcmp(command[0], "repeat") == 0){
+            success = repeat(command, histv);
         }
         if(success != 0){
             cout << "Your command failed, try running this shell with sudo";
         }
         cout << "#";
     }
-    
+    //save vector to history file
     std::ofstream output_file("mysh.history");
     std::ostream_iterator<std::string> output_iterator(output_file, "\n");
     std::copy(histv.begin(), histv.end(), output_iterator);
     output_file.close();
+
+    //end program
     exit(0);
     return 0;
 }
 
 
 int history(vector<string>& hist){
+    //clear history if command is passed
     if(hist.back().find("-c") != string::npos){
         hist.clear();
         return 0;
     }
-
+    //print out history vector contents
     for (int j = hist.size()-1; j>=0;j--){
         cout << hist.size()-(j+1) << ": " << hist[j] << endl;
     }
-
+    //read from history file if it exists
     std::ifstream input_file("mysh.history");
     std::string content;
     std::vector<std::string> numbers;
@@ -107,29 +116,27 @@ int history(vector<string>& hist){
     for(int i = numbers.size() - 1; i >= 0; i--)
         std::cout << numbers[i] << endl;
 
+    //close file
     input_file.close();
-
-
-    
-    
 
     return 0;
 }
 
 
 int replay(char*args[], vector<string>& hist){
+    //get proper position and make other varables set up
     int pos = (hist.size()-1)-(atoi(args[1])+1);
     int i = 0;
     char *cstrs = new char[hist[pos].length() + 1];
     strcpy(cstrs, hist[pos].c_str());
     char *tokens = strtok(cstrs, " ");
     char* rcommand[10];
-
+    //tokenize again
     while(tokens != NULL){
         rcommand[i++] = tokens;
         tokens = strtok(NULL, " ");
     }
-    
+    //run proper command
     if(strcmp(rcommand[0], "history") == 0){
         history(hist);
     }else if(strcmp(rcommand[0], "start") == 0){
@@ -140,14 +147,17 @@ int replay(char*args[], vector<string>& hist){
         terminate(rcommand);
     }else if(strcmp(rcommand[0], "terminateall") == 0){
         terminateall();
+    }else if(strcmp(rcommand[0], "repeat") == 0){
+        repeat(rcommand, hist);
     }
     return 0;
 }
 
 int start(char*args[]){
+    //set up variables
     pid_t pid;
     pid = fork();
-
+    //run the process
     if(pid < 0){
         cout << stderr<< "fork fail"<< endl;
         return 1;
@@ -163,16 +173,19 @@ int start(char*args[]){
 }
 
 int background(char*args[]){
+    //make variables
     pid_t cpid;
     cpid = fork();
-
+    //run process in background
     if(cpid < 0){
         cout << stderr<< "fork fail"<< endl;
         return 1;
     }else if(cpid == 0){
         cpid = execvp(args[1], args);
     }
+    //add to child vector
     children.push_back(cpid);
+    //print pid
     cout<<cpid<<endl;
     
     return 0;
@@ -180,9 +193,11 @@ int background(char*args[]){
 
 int terminate(char*args[]){
     int val = 1;
+    //send kill signal
     if(0==kill(atoi(args[1]), 0)){
         val = kill(atoi(args[1]), SIGKILL);
     }
+    //remove terminated process from vector
     std::vector<pid_t>::iterator pid, el;
     pid = std::find(children.begin(), children.end(), atoi(args[1]));
     if(pid != children.end()) {
@@ -192,43 +207,41 @@ int terminate(char*args[]){
 }
 
 int terminateall(){
+    //terminate all pids in child vector
     for(int i = 0; i < children.size();i++){
         kill(children[i], SIGKILL);
     }
+    //clear bc all pids terminated
     children.clear();
     return 0;
 }
 
 int repeat(char*args[], vector<string>& hist){
-    int pos = (hist.size()-1)-(atoi(args[1])+1);
+    //variables
     int i = 0;
-    char *cstrs = new char[hist[pos].length() + 1];
-    strcpy(cstrs, hist[pos].c_str());
-    char *tokens = strtok(cstrs, " ");
-    char* rcommand[10];
-
-    while(tokens != NULL){
-        rcommand[i++] = tokens;
-        tokens = strtok(NULL, " ");
+    char* argv[10];
+    //pull out command to be repeated
+    while(args[i] != NULL){
+        argv[i-2] = args[i];
     }
-    
-    if(strcmp(rcommand[0], "history") == 0){
+    //run command the specified number of times
+    if(strcmp(argv[0], "history") == 0){
         for(int j = 0; j < atoi(args[1]); j++){
             history(hist);
         }    
-    }else if(strcmp(rcommand[0], "start") == 0){
+    }else if(strcmp(argv[0], "start") == 0){
         for(int j = 0; j < atoi(args[1]); j++){
-            start(rcommand);
+            start(argv);
         }
-    }else if(strcmp(rcommand[0], "background") == 0){
+    }else if(strcmp(argv[0], "background") == 0){
         for(int j = 0; j < atoi(args[1]); j++){
-            history(hist);
+            background(argv);
         }
-    }else if(strcmp(rcommand[0], "terminate") == 0){
+    }else if(strcmp(argv[0], "terminate") == 0){
         for(int j = 0; j < atoi(args[1]); j++){
-            terminate(rcommand);
+            terminate(argv);
         }
-    }else if(strcmp(rcommand[0], "terminateall") == 0){
+    }else if(strcmp(argv[0], "terminateall") == 0){
         for(int j = 0; j < atoi(args[1]); j++){
             terminateall();
         }

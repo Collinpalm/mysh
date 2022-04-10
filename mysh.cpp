@@ -276,6 +276,14 @@ int dwelt(char*args[]){
 }
 
 int createFile(char*args[]){
+    std::ifstream f(args[1]);
+    if(f.good()){
+        cout << "Error: file already exists"<< endl;
+        return 0;
+    }
+    std::ofstream output_file(args[1]);
+    output_file << "Draft" << endl;
+    output_file.close();
     return 0;
 }
 

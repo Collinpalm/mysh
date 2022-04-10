@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <sys/stat.h>
 using namespace std;
 
 //function definition
@@ -32,6 +33,8 @@ int coppyFile(char*args[]);
 //vector to store all the children pid for the terminateall function
 vector<pid_t> children;
 //stat for checking
+struct stat sb;
+
 
 int main(void){
     //create history vector
@@ -158,6 +161,8 @@ int replay(char*args[], vector<string>& hist){
         terminateall();
     }else if(strcmp(rcommand[0], "repeat") == 0){
         repeat(rcommand, hist);
+    }else if(strcmp(rcommand[0], "dwelt") == 0){
+        dwelt(rcommand);
     }
     return 0;
 }
@@ -263,7 +268,9 @@ int dwelt(char*args[]){
     int direc = 0;
     std::ifstream f(args[1]);
     if(f.good())file++;
-    if(file > 0)cout << "Dwelt indeed." << endl;
+    if (stat(args[1], &sb) == 0 && S_ISDIR(sb.st_mode))direc++;
+    if(direc > 0)cout << "Abode is." << endl;
+    else if(file > 0)cout << "Dwelt indeed." << endl;
     else cout << "Dwelt not." << endl;
     return 0;
 }

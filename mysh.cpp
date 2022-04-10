@@ -11,6 +11,10 @@
 #include <vector>
 #include <signal.h>
 #include <algorithm>
+#include <filesystem>
+#include <sys/stat.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 using namespace std;
 
 //function definition
@@ -21,9 +25,13 @@ int background(char*args[]);
 int terminate(char*args[]);
 int terminateall();
 int repeat(char*args[], vector<string>& hist);
+int dwelt(char*args[]);
+int createFile(char*args[]);
+int coppyFile(char*args[]);
 
 //vector to store all the children pid for the terminateall function
 vector<pid_t> children;
+//stat for checking
 
 int main(void){
     //create history vector
@@ -57,7 +65,6 @@ int main(void){
         
         
 
-        
 
         //find which command was typed and trigger accompanying function
         if(strcmp(command[0], "history") == 0){
@@ -78,6 +85,8 @@ int main(void){
             success = terminateall();
         }else if(strcmp(command[0], "repeat") == 0){
             success = repeat(command, histv);
+        }else if(strcmp(command[0], "dwelt") == 0){
+            success = dwelt(command);
         }
         if(success != 0){
             cout << "Your command failed, try running this shell with sudo";
@@ -246,5 +255,23 @@ int repeat(char*args[], vector<string>& hist){
             terminateall();
         }
     }
+    return 0;
+}
+
+int dwelt(char*args[]){
+    int file = 0;
+    int direc = 0;
+    std::ifstream f(args[1]);
+    if(f.good())file++;
+    if(file > 0)cout << "Dwelt indeed." << endl;
+    else cout << "Dwelt not." << endl;
+    return 0;
+}
+
+int createFile(char*args[]){
+    return 0;
+}
+
+int coppyFile(char*args[]){
     return 0;
 }

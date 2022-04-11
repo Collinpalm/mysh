@@ -90,8 +90,12 @@ int main(void){
             success = repeat(command, histv);
         }else if(strcmp(command[0], "dwelt") == 0){
             success = dwelt(command);
+        }else if(strcmp(command[0], "maik") == 0){
+            success = createFile(command);
+        }else if(strcmp(command[0], "coppy") == 0){
+            success = coppyFile(command);
         }
-        if(success != 0){
+        if(success == 1){
             cout << "Your command failed, try running this shell with sudo";
         }
         cout << "#";
@@ -163,6 +167,10 @@ int replay(char*args[], vector<string>& hist){
         repeat(rcommand, hist);
     }else if(strcmp(rcommand[0], "dwelt") == 0){
         dwelt(rcommand);
+    }else if(strcmp(rcommand[0], "maik") == 0){
+        createFile(rcommand);
+    }else if(strcmp(rcommand[0], "coppy") == 0){
+        coppyFile(rcommand);
     }
     return 0;
 }
@@ -269,9 +277,9 @@ int dwelt(char*args[]){
     std::ifstream f(args[1]);
     if(f.good())file++;
     if (stat(args[1], &sb) == 0 && S_ISDIR(sb.st_mode))direc++;
-    if(direc > 0)cout << "Abode is." << endl;
-    else if(file > 0)cout << "Dwelt indeed." << endl;
-    else cout << "Dwelt not." << endl;
+    if(direc > 0){cout << "Abode is." << endl;return 2;}
+    else if(file > 0){cout << "Dwelt indeed." << endl; return 3;}
+    else {cout << "Dwelt not." << endl; return 4;}
     return 0;
 }
 
@@ -288,5 +296,18 @@ int createFile(char*args[]){
 }
 
 int coppyFile(char*args[]){
+    std::ifstream i(args[1]);
+    if(!i.good())return 0;
+    std::ifstream j(args[2]);
+    if(j.good())return 0;
+    ifstream in(args[1]);
+    ofstream out(args[2]);
+    string str;
+    while(getline(in,str)){
+        out<<str;
+    }
+    in.close();
+    out.close();
+    
     return 0;
 }
